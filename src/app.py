@@ -10,8 +10,10 @@ from api.models import db
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
-
+from api.auth import jwt
 # from models import Person
+
+from flask_jwt_extended import JWTManager
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(
@@ -36,6 +38,9 @@ setup_admin(app)
 
 # add the admin
 setup_commands(app)
+
+# initialize jwt with my app
+jwt.init_app(app)
 
 # Add all endpoints form the API with a "api" prefix
 app.register_blueprint(api, url_prefix='/api')
